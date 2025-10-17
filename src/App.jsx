@@ -1,15 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Suspense, useState } from 'react'
+import Friends from "./friends";
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
 // import Todo from './todo'
-import Counter from './counter'
-import Batsman from './scoreboad'
+// import Counter from './counter'
+// import Batsman from './scoreboad'
+import './App.css'
+
+
+const fetchFriends = async () => {
+  const response = await fetch('https://jsonplaceholder.typicode.com/users');
+  return response.json();
+}
+// .then(json => console.log(json))
 
 function App() {
-  const [count, setCount] = useState(0)
+  const friendsPromise = fetchFriends();
+  // const [count, setCount] = useState(0);
   return (
     <>
+      <Suspense fallback={<span className="loading loading-spinner loading-xl"></span>}>
+        <Friends friendsPromise={friendsPromise}></Friends>
+      </Suspense>
       {/* <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -27,7 +39,7 @@ function App() {
       </div> */}
 
       {/* <Counter></Counter> */}
-      <Batsman></Batsman>
+      {/* <Batsman></Batsman> */}
 
       {/* <Person></Person>
       <Person></Person>
